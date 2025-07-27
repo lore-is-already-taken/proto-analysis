@@ -23,10 +23,10 @@ The analysis pipeline involves loading the raw data, filtering for specific gras
 
 The analysis is conducted in a sequential pipeline, starting from raw data and ending with a feature matrix.
 
-### 3.1. Data Preprocessing (`analisis_v1.ipynb`)
+### 3.1. Data Preprocessing (`analysis_v1.ipynb`)
 
 1.  **Loading:** Raw data is loaded from `.mat` files from the NinaPro DB2 directory.
-2.  **Filtering:** A utility function (`filter_dataframe` in `filter_utlis.py`) is used to filter the data, retaining only the samples corresponding to the large grasp, small grasp, and rest stimuli.
+2.  **Filtering:** A utility function (`filter_dataframe` in `filter_utils.py`) is used to filter the data, retaining only the samples corresponding to the large grasp, small grasp, and rest stimuli.
 3.  **Trimming:** To remove irrelevant trailing data after the final exercise, the DataFrame is trimmed to a point 7000 samples beyond the last recorded stimulus.
 4.  **Consolidation:** The processed data from multiple files is concatenated into a single DataFrame and saved as `large_small_grasp.csv`.
 
@@ -52,9 +52,9 @@ The analysis is conducted in a sequential pipeline, starting from raw data and e
 
 ## 4. File Structure
 
-* `analisis_v1.ipynb`: Jupyter Notebook for initial data loading, filtering, and consolidation.
+* `analysis_v1.ipynb`: Jupyter Notebook for initial data loading, filtering, and consolidation.
 * `grasp_analysis.ipynb`: Jupyter Notebook for segmentation, feature extraction, and creation of the final feature matrix.
-* `filter_utlis.py`: Python script containing helper functions for filtering the raw data.
+* `filter_utils.py`: Python script containing helper functions for filtering the raw data.
 * `large_small_grasp.csv`: The consolidated, filtered raw EMG data.
 * `feature_df.csv`: The final output containing the extracted features for each grasp trial, ready for model training.
 
@@ -67,7 +67,7 @@ The analysis is conducted in a sequential pipeline, starting from raw data and e
     pip install pandas numpy matplotlib scipy
     ```
 2.  **Execution Order:**
-    * First, run `analisis_v1.ipynb` to generate the `large_small_grasp.csv` file.
+    * First, run `analysis_v1.ipynb` to generate the `large_small_grasp.csv` file.
     * Then, run `grasp_analysis.ipynb` to perform the feature extraction and generate the `feature_df.csv` file.
 
 ---
