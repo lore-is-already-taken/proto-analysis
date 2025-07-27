@@ -78,7 +78,6 @@ The analysis successfully processed the raw EMG signals into a structured datase
 
 The plot below visualizes the filtered EMG signal for several channels against the stimulus signal, confirming that the EMG amplitude correctly corresponds to the muscle activation periods.
 
-![Filtered EMG Signals vs. Stimulus](https://i.imgur.com/uW2gY8A.png)
 
 ---
 
