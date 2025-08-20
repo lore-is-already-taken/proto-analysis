@@ -1,0 +1,14 @@
+services:
+  jupyterlab:
+    build: .
+    container_name: jupyter_datascience_lsp
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/home/jovyan/work
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: "0.80"

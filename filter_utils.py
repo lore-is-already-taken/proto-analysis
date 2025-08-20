@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -10,17 +11,17 @@ def filter_dataframe(data, exercises):
     df["stimulus"] = stimulus_signal
     df["subject"] = subject
 
-    trimmed_df = filter_exercise(df,exercises)
+    trimmed_df = filter_exercise(df, exercises)
     return trimmed_df
 
 
 def filter_exercise(df, exercises):
     filtered_df = df[df["stimulus"].isin(exercises)].copy()
     last_nonzero_index = filtered_df[filtered_df["stimulus"] != 0].index[-1]
-    print(last_nonzero_index)
     # Assuming 'filtered_df' is your DataFrame and 'last_nonzero_index' holds the index
-    trimmed_df = filtered_df.loc[:last_nonzero_index + 7000].copy()
+    trimmed_df = filtered_df.loc[: last_nonzero_index + 7000].copy()
     return trimmed_df
+
 
 def segment_repetitions(df, grasp_label):
     """Segments a time-series DataFrame into a list of individual repetitions.
@@ -48,13 +49,15 @@ def segment_repetitions(df, grasp_label):
     # all indices where the current stimulus equals the target `grasp_label` AND
     # the stimulus of the immediately preceding sample (`shift(1)`) was 0 (rest).
     # This robustly detects the "rising edge" of the stimulus event.
-    start_indices = df[(df['stimulus'].shift(1) == 0) & (df['stimulus'] == grasp_label)].index
+    start_indices = df[
+        (df["stimulus"].shift(1) == 0) & (df["stimulus"] == grasp_label)
+    ].index
 
     # Iterate through each identified start index to find its corresponding end.
     for start in start_indices:
         # Find all potential end indices for the current repetition. An end is defined
         # as any point after the 'start' index where the stimulus returns to 0.
-        end_index_series = df.index[(df.index > start) & (df['stimulus'] == 0)]
+        end_index_series = df.index[(df.index > start) & (df["stimulus"] == 0)]
 
         # Ensure that at least one end index was found to avoid errors with
         # incomplete repetitions at the end of the recording.
@@ -71,6 +74,7 @@ def segment_repetitions(df, grasp_label):
             repetitions.append(repetition_df)
 
     return repetitions
+
 
 def calculate_features(window):
     """Computes a set of standard time-domain features for a given signal window.
@@ -94,20 +98,16 @@ def calculate_features(window):
     """
     features = {
         # Root Mean Square (RMS): A measure of the signal's power and amplitude.
-        'rms': np.sqrt(np.mean(window**2)),
-
+        "rms": np.sqrt(np.mean(window**2)),
         # Mean Absolute Value (MAV): The average of the rectified signal,
         # providing a measure of its average amplitude.
-        'mav': np.mean(np.abs(window)),
-
+        "mav": np.mean(np.abs(window)),
         # Zero Crossing (ZC): The number of times the signal crosses the
         # zero-axis. This is an indicator of the signal's frequency.
         # The product of adjacent samples will be negative if a zero-crossing occurred.
-        'zc': ((window[:-1] * window[1:]) < 0).sum(),
-
+        "zc": ((window[:-1] * window[1:]) < 0).sum(),
         # Waveform Length (WL): The cumulative length of the waveform over the
         # time segment, indicating a measure of signal complexity.
-        'wl': np.sum(np.abs(np.diff(window)))
+        "wl": np.sum(np.abs(np.diff(window))),
     }
     return features
-
