@@ -231,5 +231,9 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/pythonvanilla,python,dotenv,venv,jupyternotebooks
-large_small_grasp.csv
-feature_df.csv
+work/large_small_grasp.csv
+work/feature_df.csv
+work/utils/ninaproDB1
+work/utils/ninaproDB2
+work/utils/zip_data
+
